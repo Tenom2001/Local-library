@@ -13,19 +13,20 @@ accountA.name.last.toLowerCase() > accountB.name.last.toLowerCase() ? 1 : -1 )
 }
 
 function getTotalNumberOfBorrows(account, books) {
-  let total = 0;
-  const { id } = account;
-
-  for (let book in books) {
-    const { borrows } = books[book];
-    borrows.forEach((element) => {
-      if (element.id === id) {
-        total++;
-      }
-    });
-  }
-  return total;
+    const {
+        id: accountId
+    } = account;
+    return books.reduce((total, book) => {
+      return (
+            total +
+            book.borrows
+            .filter(borrow => borrow.id === accountId)
+            .reduce((totalBorrows, borrow) => totalBorrows + 1, 0)
+        )}, 0);
 }
+
+function getBooksPossessedByAccount(account, books, authors) {
+  const borrowedBooks = [];
 
 function getBooksPossessedByAccount(account, books, authors) {
   const borrowedBooks = [];
